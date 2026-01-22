@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Acceso privado</title>
+
+  <!-- =========================
+       META PIXEL (PEGÁ TU ID)
+       ========================= -->
+  <script>
+    // 1) Reemplazá "TU_PIXEL_ID" por tu Pixel ID real (solo números)
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'TU_PIXEL_ID');
+    fbq('track', 'PageView');
+
+    // Helper seguro para disparar eventos custom
+    function trackPixelEvent(eventName, params){
+      try{
+        if (typeof fbq === 'function') fbq('trackCustom', eventName, params || {});
+      }catch(e){}
+    }
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=TU_PIXEL_ID&ev=PageView&noscript=1"/>
+  </noscript>
+
+  <style>
+    :root{
+      --bg1:#2b0a5a;
+      --bg2:#5a1fbf;
+      --bg3:#8b2cff;
+      --card: rgba(255,255,255,.10);
+      --card2: rgba(255,255,255,.08);
+      --border: rgba(255,255,255,.18);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        radial-gradient(1000px 500px at 20% 10%, rgba(139,44,255,.55), transparent 60%),
+        radial-gradient(900px 500px at 80% 20%, rgba(90,31,191,.55), transparent 60%),
+        radial-gradient(900px 600px at 50% 90%, rgba(43,10,90,.9), transparent 70%),
+        linear-gradient(140deg, var(--bg1), var(--bg2) 50%, var(--bg3));
+    }
+    .wrap{
+      width: min(980px, 92vw);
+      margin: 0 auto;
+      padding: 42px 0 60px;
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px; margin-bottom: 26px;
+    }
+    .brand{display:flex; align-items:center; gap:12px;}
+    .logo{
+      width:44px;height:44px; border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.08));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      position:relative; overflow:hidden;
+    }
+    .logo:after{
+      content:""; position:absolute; inset:-40%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 55%);
+      transform: rotate(18deg);
+    }
+    .brand h1{font-size: 16px; margin:0; letter-spacing:.3px; font-weight: 700;}
+    .brand p{margin:0; font-size: 12px; color: var(--muted);}
+
+    .pill{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.18);
+      backdrop-filter: blur(10px);
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    @media (max-width: 860px){
+      .hero{grid-template-columns: 1fr;}
+      .pill{display:none;}
+    }
+
+    .card{
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+      backdrop-filter: blur(12px);
+    }
+
+    .headline{
+      font-size: clamp(26px, 3.2vw, 40px);
+      line-height: 1.05;
+      margin: 6px 0 10px;
+      letter-spacing: -.5px;
+      font-weight: 900;
+    }
+    .sub{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.5;
+    }
+
+    .promoGrid{display:grid; grid-template-columns: 1fr; gap: 10px; margin-top: 14px;}
+    .promo{
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.16);
+      border-radius: 16px;
+      padding: 12px 14px;
+      display:flex; align-items:center; justify-content:space-between; gap: 12px;
+    }
+    .promo b{font-size: 14px; letter-spacing:.2px;}
+    .promo span{color: var(--muted); font-size: 13px; text-align:right;}
+
+    .ctaRow{display:flex; gap: 10px; flex-wrap: wrap; margin-top: 16px;}
+    .btn{
+      appearance:none;
+      border: 0;
+      cursor:pointer;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-weight: 800;
+      letter-spacing:.2px;
+      transition: transform .08s ease, filter .15s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      text-decoration:none;
+      user-select:none;
+      min-width: 220px;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btnPrimary{
+      color: #140625;
+      background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(255,255,255,.80));
+      box-shadow: 0 14px 40px rgba(0,0,0,.25);
+    }
+    .btnSecondary{
+      color: var(--text);
+      background: rgba(0,0,0,.20);
+      border: 1px solid var(--border);
+    }
+
+    .sideTitle{font-size: 16px; margin: 2px 0 10px; font-weight: 800; letter-spacing:.2px;}
+    .steps{display:grid; gap: 10px; margin-top: 10px;}
+    .step{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.16);
+      border-radius: 16px;
+      padding: 12px 14px;
+    }
+    .step small{display:block; color: var(--muted); margin-top: 4px; line-height:1.35;}
+    .footer{margin-top: 14px; color: rgba(255,255,255,.55); font-size: 12px; text-align:center;}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Acceso privado</h1>
+          <p>Soporte en vivo • Respuesta rápida</p>
+        </div>
+      </div>
+      <div class="pill">Chat disponible en pantalla</div>
+    </div>
+
+    <div class="hero">
+      <!-- IZQUIERDA -->
+      <div class="card">
+        <div class="headline">Entrá al chat en vivo y te guiamos.</div>
+        <p class="sub">
+          Atención directa por chat. Sin vueltas. En segundos quedás conectado con un asesor.
+        </p>
+
+        <div class="promoGrid">
+          <div class="promo">
+            <b>Cargás 3.000</b>
+            <span>Jugás con 9.000</span>
+          </div>
+          <div class="promo">
+            <b>Cargás 5.000</b>
+            <span>Jugás con 18.000</span>
+          </div>
+          <div class="promo">
+            <b>Cargás 10.000</b>
+            <span>Jugás con 36.000</span>
+          </div>
+        </div>
+
+        <div class="ctaRow">
+          <!-- Botón principal: abre el direct link del chat -->
+          <a id="openChatBtn" class="btn btnPrimary"
+             href="https://direct.lc.chat/19464312/"
+             target="_blank" rel="noopener">
+            Abrir chat en vivo
+          </a>
+
+          <!-- Alternativa: abrir el widget (si querés que NO abra otra pestaña) -->
+          <button id="openWidgetBtn" class="btn btnSecondary" type="button">
+            Abrir chat acá
+          </button>
+        </div>
+
+        <div class="footer">
+          Si no ves el chat, esperá unos segundos: el icono aparece abajo a la derecha.
+        </div>
+      </div>
+
+      <!-- DERECHA -->
+      <div class="card">
+        <div class="sideTitle">¿Cómo funciona?</div>
+        <div class="steps">
+          <div class="step">
+            <b>1) Tocás “Abrir chat”</b>
+            <small>Se abre el chat en vivo para que te atiendan al instante.</small>
+          </div>
+          <div class="step">
+            <b>2) Te responden y te guían</b>
+            <small>Te indican los pasos según lo que necesites.</small>
+          </div>
+          <div class="step">
+            <b>3) Listo</b>
+            <small>Quedás conectado con soporte en tiempo real.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================
+       TRACKING: Pixel events
+       ========================= -->
+  <script>
+    // Evento cuando hacen click al link directo (nueva pestaña)
+    document.getElementById('openChatBtn').addEventListener('click', function(){
+      trackPixelEvent('ChatOpen', { method: 'direct_link' });
+    });
+
+    // Evento cuando abren el widget dentro de la misma página
+    document.getElementById('openWidgetBtn').addEventListener('click', function(){
+      trackPixelEvent('ChatOpen', { method: 'widget_button' });
+
+      // Abre el widget si está cargado (si no, no rompe nada)
+      try{
+        if (window.LC_API && typeof window.LC_API.open_chat_window === 'function') {
+          window.LC_API.open_chat_window();
+        } else if (window.LC_API && typeof window.LC_API.openChatWindow === 'function') {
+          // por si tu versión usa naming distinto
+          window.LC_API.openChatWindow();
+        }
+      }catch(e){}
+    });
+  </script>
+
+  <!-- =========================
+       LIVECHAT WIDGET (ICONO ABAJO)
+       Licencia: 19464312
+       ========================= -->
+  <script>
+    // LiveChat: setear licencia
+    window.__lc = window.__lc || {};
+    window.__lc.license = 19464312;
+
+    // LiveChat JS API (callbacks)
+    window.LC_API = window.LC_API || {};
+    // Cuando el widget ya cargó
+    window.LC_API.on_after_load = function() {
+      // Si el usuario abre el widget (icono), disparo evento al Pixel
+      // (Nombre de callback según integraciones LiveChat comunes)
+      window.LC_API.on_chat_window_opened = function() {
+        trackPixelEvent('ChatWidgetOpened', { source: 'widget' });
+      };
+    };
+
+    // Cargar script oficial
+    (function(n,t,c){
+      function i(n){return e._h?e._h.apply(null,n):e._q.push(n)}
+      var e={_q:[],_h:null,_v:"2.0",on:function(){i(["on",c.call(arguments)])},once:function(){i(["once",c.call(arguments)])},off:function(){i(["off",c.call(arguments)])},get:function(){if(!e._h)throw new Error("[LiveChatWidget] You can't use getters before load.");return i(["get",c.call(arguments)])},call:function(){i(["call",c.call(arguments)])},init:function(){var n=t.createElement("script");n.async=!0,n.type="text/javascript",n.src="https://cdn.livechatinc.com/tracking.js",t.head.appendChild(n)}};
+      !n.__lc.asyncInit && e.init(),n.LiveChatWidget=n.LiveChatWidget||e
+    }(window,document,[].slice));
+  </script>
+</body>
+</html>
